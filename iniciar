@@ -1,0 +1,1 @@
+npm install --save mysql2npm install express sequelize jsonwebtoken dotenv nodemon mysql2 joi
