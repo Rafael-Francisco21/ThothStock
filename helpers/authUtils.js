@@ -32,5 +32,16 @@ let validaJWT = function(req, res, next){
     })
 }
 
+let verificaAcesso = function (nivelNecessario) {
+    return function (req, res, next) {
+        if (req.acesso > nivelNecessario) {
+            return res.status(400).json({
+                success: false,
+                msg: "Usuário não tem permissão para realizar esta ação."
+            });
+        }
+        next();
+    };
+};
 
-module.exports = {criaJWT, validaJWT}
+module.exports = { criaJWT, validaJWT, verificaAcesso };

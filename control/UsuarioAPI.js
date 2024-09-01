@@ -99,11 +99,8 @@ router.delete("/:id", auth.validaJWT, async (req, res) => {
     }
 });
 
-router.get("/list", auth.validaJWT, async (req, res) => {
+router.get("/list", auth.validaJWT, auth.verificaAcesso(2), async (req, res) => {
     try {
-        if (req.acesso > 2)
-            return res.status(400).json(fail("Usuário não tem permissão para usar esse recurso"));
-
         let { pagina, limite } = req.query;
 
         if (pagina && limite) {
