@@ -35,6 +35,5 @@ const UsuarioModel = sequelize.define('Usuario',
       }
 );
 
-// sequelize.sync()
 
 module.exports = UsuarioModel;

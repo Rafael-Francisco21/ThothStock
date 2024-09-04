@@ -47,6 +47,5 @@ const VendaProdutoModel = sequelize.define('VendaProduto', {
 VendaProdutoModel.belongsTo(VendaModel, { foreignKey: 'vendaId', as: 'venda', onDelete: 'CASCADE' });
 VendaProdutoModel.belongsTo(ProdutoModel, { foreignKey: 'produtoId', as: 'produto' });
 
-sequelize.sync()
 
 module.exports = VendaProdutoModel;

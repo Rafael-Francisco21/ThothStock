@@ -46,6 +46,4 @@ UsuarioModel.hasMany(CompraModel, { foreignKey: 'usuarioId' });
 CompraModel.belongsTo(FornecedorModel, { foreignKey: 'fornecedorId' });
 CompraModel.belongsTo(UsuarioModel, { foreignKey: 'usuarioId' });
 
-sequelize.sync();
-
 module.exports = CompraModel;

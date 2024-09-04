@@ -12,9 +12,10 @@ app.use("/produto", require("./control/ProdutoAPI"))
 app.use("/venda", require("./control/VendaAPI"))
 app.use("/venpro", require("./control/VendaProdutoAPI"))
 app.use("/fornecedor", require("./control/FornecedorAPI"))
-// app.use("/compra", require("./control/CompraAPI"))
-// app.use("/compro", require("./control/ComProAPI"))
-// app.use("/install", require('./control/InstallAPI'))
+app.use("/compra", require("./control/CompraAPI"))
+app.use("/compro", require("./control/CompraProdutoAPI"))
+app.use("/relatorio", require('./control/RelatorioAPI'))
+app.use("/install", require('./control/InstallAPI'))
 
 app.listen(3000, () => {
     console.log("Listenning...")

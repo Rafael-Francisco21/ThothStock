@@ -53,6 +53,4 @@ const ClienteModel = sequelize.define('Cliente',
     }
 );
 
-sequelize.sync()
-
 module.exports = ClienteModel;

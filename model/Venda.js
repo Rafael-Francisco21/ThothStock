@@ -49,6 +49,5 @@ UsuarioModel.hasMany(VendaModel, { foreignKey: 'usuarioId' });
 VendaModel.belongsTo(ClienteModel, { foreignKey: 'clienteId' });
 VendaModel.belongsTo(UsuarioModel, { foreignKey: 'usuarioId' });
 
-sequelize.sync();
 
 module.exports = VendaModel;

@@ -53,6 +53,4 @@ const FornecedorModel = sequelize.define('Fornecedor',
     }
 );
 
-sequelize.sync();
-
 module.exports = FornecedorModel;

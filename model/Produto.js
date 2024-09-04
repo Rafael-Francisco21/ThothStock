@@ -31,6 +31,4 @@ const ProdutoModel = sequelize.define('Produto',
     }
 );
 
-sequelize.sync()
-
 module.exports = ProdutoModel;

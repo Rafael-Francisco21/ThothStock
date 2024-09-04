@@ -83,9 +83,10 @@ module.exports = {
             where: { vendaId },
             include: [{
                 model: ProdutoModel,
-                attributes: ['nome']
+                attributes: ['descricao'],
+                as: 'produto'
             }],
-            attributes: ['id', 'quantidade', [sequelize.literal('quantidade * unitario'), 'total']]
+            attributes: ['codigo', 'quantidade', 'unitario', 'total']
         });
     },
 
@@ -104,9 +105,10 @@ module.exports = {
             offset: offset,
             include: [{
                 model: ProdutoModel,
-                attributes: ['nome']
+                attributes: ['descricao'],
+                as: 'produto'
             }],
-            attributes: ['id', 'quantidade', [sequelize.literal('quantidade * unitario'), 'total']]
+            attributes: ['codigo', 'quantidade', 'unitario', 'total']
         });
     }
 };

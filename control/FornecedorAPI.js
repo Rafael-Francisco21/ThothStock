@@ -36,7 +36,7 @@ router.put("/:id", auth.validaJWT, validaFornecedor, async (req, res) => {
     }
 });
 
-router.delete("/:id", auth.validaJWT, async (req, res) => {
+router.delete("/:id", auth.validaJWT, auth.verificaAcesso(2), async (req, res) => {
     try {
         let fornecedor = await FornecedorDAO.getById(req.params.id);
         if (!fornecedor) {
