@@ -15,8 +15,7 @@ const UsuarioSchema = Joi.object({
         .messages({
             'string.base': 'O nome deve ser uma string.',
             'string.empty': 'O nome é obrigatório.',
-            'string.min': 'O nome deve ter no mínimo 10 caracteres.',
-            'string.max': 'O nome deve ter no máximo 30 caracteres.'
+            'string.min': 'O nome deve ter no mínimo 10 caracteres.'
         }),
     senha: Joi.string()
         .min(8)

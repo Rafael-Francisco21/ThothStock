@@ -42,38 +42,27 @@ module.exports = {
     },
     
     list: async function() {
-        const usuario = await UsuarioModel.findAll()
+        const usuario = await UsuarioModel.findAll({
+            attributes: ['codigo', 'nome', 'acesso']
+        })
         return usuario
     },
     
     listPage: async function(pagina, limite) {
-        // Verifique se 'pagina' e 'limite' são números e estão corretos
-        const paginaNumber = parseInt(pagina, 10);
+        const offset = (pagina - 1) * limite;
+
         const limiteNumber = parseInt(limite, 10);
-    
-        if (isNaN(paginaNumber) || paginaNumber <= 0) {
-            throw new Error('A página deve ser um número inteiro positivo.');
-        }
-    
         if (isNaN(limiteNumber) || limiteNumber <= 0) {
-            throw new Error('O limite deve ser um número inteiro positivo.');
+            throw new Error('O limite deve ser um número positivo.');
         }
-    
-        const offset = (paginaNumber - 1) * limiteNumber;
-    
-        console.log('Página:', paginaNumber);
-        console.log('Limite:', limiteNumber);
-        console.log('Offset:', offset);
-    
+        
         const usuario = await UsuarioModel.findAll({
+            attributes: ['codigo', 'nome', 'acesso'],
             limit: limiteNumber,
             offset: offset
         });
     
-        console.log('Resultados:', usuario); // Verifique o resultado da consulta
-    
         return usuario;
     }
-    
     
 }

@@ -61,6 +61,8 @@ router.put("/:id", auth.validaJWT, validaUsuario, async (req, res) => {
 
         let existente = await UsuarioDAO.getByEmail(req.body.email);
 
+        if (!existente)
+            return res.status(400).json(fail("Usuário não encontrado"));  
         if (existente.dataValues.codigo != req.params.id) {
             return res.status(400).json(fail("E-mail já existente"));
         }
@@ -122,5 +124,17 @@ router.get("/list", auth.validaJWT, auth.verificaAcesso(2), async (req, res) => 
 
 })
 
+router.get("/:id", auth.validaJWT, async(req, res) =>{
+    let usuario = await UsuarioDAO.getById(req.params.id);
+    
+    if (usuario){
+        if (req.acesso >= usuario.acesso && req.acesso != 1 && req.params.id != usuario.codigo) {
+            return res.status(400).json(fail("Usuário não tem permissão de consultar outro usuário com esse nível de acesso"));
+        }
+        delete usuario.dataValues.senha;
+        res.json(sucess(usuario, 'Usuário'));
+    }else
+        res.status(500).json(fail("Usuário não encontrado"))
+});
 
 module.exports = router

@@ -7,13 +7,12 @@ app.use(express.json())
 app.use(express.static(path.join(__dirname, 'public')))
 
 app.use("/usuario", require("./control/UsuarioAPI"))
-
-// app.use("/cliente", require("./control/ClienteAPI"))
+app.use("/cliente", require("./control/ClienteAPI"))
+app.use("/produto", require("./control/ProdutoAPI"))
+// app.use("/venda", require("./control/VendaAPI"))
 // app.use("/fornecedor", require("./control/FornecedorAPI"))
-// app.use("/produto", require("./control/ProdutoAPI"))
 // app.use("/compra", require("./control/CompraAPI"))
 // app.use("/compro", require("./control/ComProAPI"))
-// app.use("/venda", require("./control/VendaAPI"))
 // app.use("/venpro", require("./control/VenProAPI"))
 // app.use("/install", require('./control/InstallAPI'))
 
