@@ -255,6 +255,16 @@ router.get("/qtdlogin", auth.validaJWT, async (req, res) => {
     }
 })
 
+// Rota para buscar um quantidade de acessos de um usuário
+router.get("/cont", auth.validaJWT, async(req, res) =>{
+    let usuario = await UsuarioDAO.getById(req.user);
+    if (usuario){
+        delete usuario.dataValues.senha;
+        res.json(sucess(usuario.dataValues.contLogin, 'Quantidade de acessos'));
+    }else
+        res.status(500).json(fail("Usuário não encontrado"))
+});
+
 // Rota para buscar um usuário pelo ID
 router.get("/:id", auth.validaJWT, async(req, res) =>{
     let usuario = await UsuarioDAO.getById(req.params.id);
@@ -269,15 +279,5 @@ router.get("/:id", auth.validaJWT, async(req, res) =>{
         res.status(500).json(fail("Usuário não encontrado"))
 });
 
-// Rota para buscar um quantidade de acessos de um usuário
-router.get("/cont/:id", auth.validaJWT, async(req, res) =>{
-    let usuario = await UsuarioDAO.getById(req.params.id);
-    
-    if (usuario){
-        delete usuario.dataValues.senha;
-        res.json(sucess(usuario.dataValues.contLogin, 'Quantidade de acessos'));
-    }else
-        res.status(500).json(fail("Usuário não encontrado"))
-});
 
 module.exports = router;
