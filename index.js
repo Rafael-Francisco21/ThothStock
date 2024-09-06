@@ -1,5 +1,7 @@
 const express = require("express")
 const path = require("path")
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger_output.json')
 require("dotenv").config()
 
 const app = express()
@@ -16,6 +18,7 @@ app.use("/compra", require("./control/CompraAPI"))
 app.use("/compro", require("./control/CompraProdutoAPI"))
 app.use("/relatorio", require('./control/RelatorioAPI'))
 app.use("/install", require('./control/InstallAPI'))
+app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 app.listen(3000, () => {
     console.log("Listenning...")

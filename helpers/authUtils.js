@@ -10,6 +10,14 @@ let criaJWT = (user)=>{
 
 let validaJWT = function(req, res, next){
     let baerer = req.headers['authorization']
+
+    if (!baerer) {
+        return res.status(403).json({
+            auth: false,
+            msg: "Acesso negado! Nenhum token fornecido."
+        });
+    }
+    
     let partes = baerer.split(' ')
     let token = partes[1];
 

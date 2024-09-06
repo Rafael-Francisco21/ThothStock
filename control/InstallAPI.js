@@ -11,8 +11,22 @@ const CompraProdutoDAO = require('../services/CompraProdutoDAO');
 const VendaProdutoDAO = require('../services/VendaProdutoDAO');
 const UsuarioDAO = require('../services/UsuarioDAO'); // Importa o DAO do Usuário
 
+/**
+ * @swagger
+ * /:
+ *   get:
+ *     summary: Inicializa o banco de dados e insere dados iniciais.
+ *     description: Recria as tabelas no banco de dados e insere usuários, clientes, produtos, fornecedores, compras e vendas de exemplo.
+ *     responses:
+ *       200:
+ *         description: Dados iniciais inseridos com sucesso.
+ *       500:
+ *         description: Erro ao instalar o banco de dados.
+ */
 router.get('/', async (req, res) => {
     try {
+        // #swagger.description = 'Sincroniza os modelos com o banco de dados, recriando as tabelas (force: true) e insere dados iniciais como usuários, clientes, produtos, fornecedores, compras e vendas.'
+
         // Sincroniza os modelos com o banco de dados
         await sequelize.sync({ force: true });
 
@@ -60,7 +74,6 @@ router.get('/', async (req, res) => {
             { data: new Date(), total: 550.0, clienteId: 5, usuarioId: 3 }
         ];
         
-
         // Insere os dados iniciais
         const insertedUsuarios = await Promise.all(usuarios.map(usuario => UsuarioDAO.create(usuario)));
         const insertedClientes = await Promise.all(clientes.map(cliente => ClienteDAO.create(cliente)));
@@ -94,6 +107,7 @@ router.get('/', async (req, res) => {
             usuarios: insertedUsuarios
         });
     } catch (error) {
+        // #swagger.description = 'Em caso de erro, retorna a mensagem com o erro ocorrido ao tentar instalar o banco de dados.'
         console.error('Erro ao instalar o banco de dados:', error);
         res.status(500).json({ status: false, message: 'Erro ao instalar o banco de dados' });
     }

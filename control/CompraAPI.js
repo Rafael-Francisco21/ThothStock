@@ -7,6 +7,38 @@ const auth = require("../helpers/authUtils");
 const CompraDAO = require('../services/CompraDAO');
 
 router.post("/", auth.validaJWT, validaCompra, async (req, res) => {
+    // #swagger.description = 'Cria uma nova compra.'
+    // #swagger.parameters['body'] = {
+    //   in: 'body',
+    //   description: 'Dados da nova compra.',
+    //   required: true,
+    //   schema: {
+    //     type: 'object',
+    //     properties: {
+    //       fornecedor: { type: 'string', description: 'Fornecedor da compra' },
+    //       total: { type: 'number', description: 'Total da compra' },
+    //       data: { type: 'string', format: 'date', description: 'Data da compra' },
+    //       produtos: { 
+    //         type: 'array',
+    //         items: {
+    //           type: 'object',
+    //           properties: {
+    //             codigo: { type: 'string', description: 'Código do produto' },
+    //             quantidade: { type: 'number', description: 'Quantidade comprada' },
+    //             valor: { type: 'number', description: 'Valor unitário do produto' }
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+    // #swagger.responses[200] = {
+    //   description: 'Compra criada com sucesso.',
+    //   schema: {
+    //     status: true,
+    //     compra: { type: 'object' }
+    //   }
+    // }
     try {
         let obj = await CompraDAO.create(req.body);
         if (obj) {
@@ -20,6 +52,39 @@ router.post("/", auth.validaJWT, validaCompra, async (req, res) => {
 });
 
 router.put("/:id", auth.validaJWT, validaCompra, async (req, res) => {
+    // #swagger.description = 'Atualiza os dados de uma compra pelo ID.'
+    // #swagger.parameters['id'] = { description: 'ID da compra a ser atualizada.', type: 'string' }
+    // #swagger.parameters['body'] = {
+    //   in: 'body',
+    //   description: 'Dados atualizados da compra.',
+    //   required: true,
+    //   schema: {
+    //     type: 'object',
+    //     properties: {
+    //       fornecedor: { type: 'string', description: 'Fornecedor da compra' },
+    //       total: { type: 'number', description: 'Total da compra' },
+    //       data: { type: 'string', format: 'date', description: 'Data da compra' },
+    //       produtos: { 
+    //         type: 'array',
+    //         items: {
+    //           type: 'object',
+    //           properties: {
+    //             codigo: { type: 'string', description: 'Código do produto' },
+    //             quantidade: { type: 'number', description: 'Quantidade comprada' },
+    //             valor: { type: 'number', description: 'Valor unitário do produto' }
+    //           }
+    //         }
+    //       }
+    //     }
+    //   }
+    // }
+    // #swagger.responses[200] = {
+    //   description: 'Compra atualizada com sucesso.',
+    //   schema: {
+    //     status: true,
+    //     message: { type: 'string', description: 'Mensagem de sucesso.' }
+    //   }
+    // }
     try {
         let existente = await CompraDAO.getById(req.params.id);
         if (!existente) {
@@ -37,6 +102,15 @@ router.put("/:id", auth.validaJWT, validaCompra, async (req, res) => {
 });
 
 router.delete("/:id", auth.validaJWT, auth.verificaAcesso(2), async (req, res) => {
+    // #swagger.description = 'Exclui uma compra pelo ID.'
+    // #swagger.parameters['id'] = { description: 'ID da compra a ser excluída.', type: 'string' }
+    // #swagger.responses[200] = {
+    //   description: 'Compra excluída com sucesso.',
+    //   schema: {
+    //     status: true,
+    //     message: { type: 'string', description: 'Mensagem de sucesso.' }
+    //   }
+    // }
     try {
         let compra = await CompraDAO.getById(req.params.id);
         if (!compra) {
@@ -54,6 +128,26 @@ router.delete("/:id", auth.validaJWT, auth.verificaAcesso(2), async (req, res) =
 });
 
 router.get("/list", auth.validaJWT, async (req, res) => {
+    // #swagger.description = 'Lista todas as compras com paginação ou lista completa.'
+    // #swagger.parameters['query'] = {
+    //   in: 'query',
+    //   description: 'Parâmetros de paginação.',
+    //   required: false,
+    //   schema: {
+    //     type: 'object',
+    //     properties: {
+    //       pagina: { type: 'integer', description: 'Número da página' },
+    //       limite: { type: 'integer', description: 'Quantidade de itens por página' }
+    //     }
+    //   }
+    // }
+    // #swagger.responses[200] = {
+    //   description: 'Lista de compras paginada ou completa.',
+    //   schema: {
+    //     status: true,
+    //     compras: { type: 'array', items: { type: 'object' } }
+    //   }
+    // }
     try {
         let { pagina, limite } = req.query;
 
@@ -76,6 +170,15 @@ router.get("/list", auth.validaJWT, async (req, res) => {
 });
 
 router.get("/:id", auth.validaJWT, async (req, res) => {
+    // #swagger.description = 'Busca uma compra pelo ID.'
+    // #swagger.parameters['id'] = { description: 'ID da compra a ser buscada.', type: 'string' }
+    // #swagger.responses[200] = {
+    //   description: 'Compra encontrada com sucesso.',
+    //   schema: {
+    //     status: true,
+    //     compra: { type: 'object' }
+    //   }
+    // }
     try {
         let compra = await CompraDAO.getById(req.params.id);
         if (compra) {
