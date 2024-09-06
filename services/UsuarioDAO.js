@@ -8,7 +8,8 @@ module.exports = {
             nome: user.nome,
             email: user.email,
             senha: user.senha,
-            acesso: user.acesso
+            acesso: user.acesso,
+            contLogin: 0
         })   
     },
 
@@ -17,7 +18,13 @@ module.exports = {
     },
     
     login: async function(email, senha) {
-        return await UsuarioModel.findOne({where: {email: email, senha: senha}})
+        let usuario = await UsuarioModel.findOne({where: {email: email, senha: senha}});
+        if(usuario){
+            let contLogin = usuario.dataValues.contLogin + 1
+            let id = usuario.dataValues.codigo
+            await UsuarioModel.update({ contLogin: contLogin},{ where: { codigo: id }})
+        }
+        return usuario
     },
     
     update: async function(id, user) {

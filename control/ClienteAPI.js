@@ -183,4 +183,5 @@ router.get("/:id", auth.validaJWT, async (req, res) => {
     }
 });
 
+
 module.exports = router;

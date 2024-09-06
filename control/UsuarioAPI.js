@@ -222,4 +222,62 @@ router.get("/list", auth.validaJWT, auth.verificaAcesso(2), async (req, res) => 
     }
 });
 
+router.get("/qtdlogin", auth.validaJWT, async (req, res) => {
+    // #swagger.description = 'Exclui um usuário pelo ID.'
+    // #swagger.parameters['id'] = { description: 'ID do usuário a ser excluído.', type: 'string' }
+    // #swagger.responses[200] = {
+    //   description: 'Usuário excluído com sucesso.',
+    //   schema: {
+    //     status: true,
+    //     message: { type: 'string', description: 'Mensagem de sucesso.' }
+    //   }
+    // }
+    try {
+        let usuario = await UsuarioDAO.getById(req.params.id);
+
+        if (req.acesso >= usuario.acesso && req.acesso != 1 && req.params.id != usuario.codigo) {
+            return res.status(400).json(fail("Usuário não tem permissão de excluir outro usuário com esse nível de acesso"));
+        }
+
+        if (usuario.acesso == 1) {
+            let quantAdm = await UsuarioDAO.quantAdm();
+            if (quantAdm == 1)
+                return res.status(400).json(fail("Usuário não pode ser excluído por ser o último administrador"));
+        }
+
+        let result = await UsuarioDAO.delete(usuario.codigo);
+        if (result)
+            res.json(sucess('Usuário excluído com sucesso', 'message'));
+        else
+            res.status(500).json(fail("Erro ao excluir usuário"));
+    } catch (error) {
+        res.status(500).json(fail("Erro no servidor: " + error.message));
+    }
+})
+
+// Rota para buscar um usuário pelo ID
+router.get("/:id", auth.validaJWT, async(req, res) =>{
+    let usuario = await UsuarioDAO.getById(req.params.id);
+    
+    if (usuario){
+        if (req.acesso >= usuario.acesso && req.acesso != 1 && req.params.id != usuario.codigo) {
+            return res.status(400).json(fail("Usuário não tem permissão de consultar outro usuário com esse nível de acesso"));
+        }
+        delete usuario.dataValues.senha;
+        res.json(sucess(usuario, 'Usuário'));
+    }else
+        res.status(500).json(fail("Usuário não encontrado"))
+});
+
+// Rota para buscar um quantidade de acessos de um usuário
+router.get("/cont/:id", auth.validaJWT, async(req, res) =>{
+    let usuario = await UsuarioDAO.getById(req.params.id);
+    
+    if (usuario){
+        delete usuario.dataValues.senha;
+        res.json(sucess(usuario.dataValues.contLogin, 'Quantidade de acessos'));
+    }else
+        res.status(500).json(fail("Usuário não encontrado"))
+});
+
 module.exports = router;

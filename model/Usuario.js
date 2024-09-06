@@ -28,6 +28,10 @@ const UsuarioModel = sequelize.define('Usuario',
         acesso: {
             type: DataTypes.INTEGER,
             allowNull: false
+        }, 
+        contLogin: {
+            type: DataTypes.INTEGER,
+            allowNull: false
         }
     }, {
         freezeTableName: true,
