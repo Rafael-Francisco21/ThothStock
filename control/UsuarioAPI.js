@@ -259,7 +259,6 @@ router.get("/qtdlogin", auth.validaJWT, async (req, res) => {
 router.get("/cont", auth.validaJWT, async(req, res) =>{
     let usuario = await UsuarioDAO.getById(req.user);
     if (usuario){
-        delete usuario.dataValues.senha;
         res.json(sucess(usuario.dataValues.contLogin, 'Quantidade de acessos'));
     }else
         res.status(500).json(fail("Usuário não encontrado"))
